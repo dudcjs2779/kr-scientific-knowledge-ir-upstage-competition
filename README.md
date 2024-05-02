@@ -142,7 +142,6 @@ transformers              4.37.2
 ## 3. Data descrption
 ### Dataset overview
 
-
 - **대회 데이터셋 License**
     - CC-BY-SA 4.0
         - 원본데이터 : ARC, MMLU
@@ -189,7 +188,44 @@ transformers              4.37.2
         - msg :  user와 assistant 간 대화 메시지 (리스트)
 ### Data Processing
 
-#### 1.학습 데이터 구축(GPT 3.5)
+#### 1.일상대화 분류 Prompting
+- 분류 프롬프트
+    ```python
+    query_generate_prompt = """
+    ## Role: 검색 Query 생성기
+    
+    ## Instruction
+    - 한국어로 답변을 생성해줘.
+    """
+    
+    # tools를 사용하여 분류합니다. "query" 변수에 검색에 이용할 쿼리를 기본적으로 생성하고 
+    # is_normal_conversation 변수에는 사용자의 질의가 일상 대화인지 아닌지를 구분해 일상 대화면 1 아니면 0을 입력하도록 합니다.
+    tools = [
+        {
+            "type": "function",
+            "function": {
+                "name": "generate_query",
+                "description": "사용자의 대화 내역이 자연과학, 사회과학, 컴퓨터공학, 코딩, 수학, 의학, 정치, 사회, 지리, 경제, 일반상식 등의 지식을 요구하는 질문일 경우 검색에 사용할 query를 생성한다.",
+                "parameters": {
+                    "properties": {
+                        "query": {
+                            "type": "string",
+                            "description": "사용자와의 대화를 기반으로 적절한 검색 쿼리를 간결하게 생성한다."
+                        },
+                        "is_normal_conversation": {
+                            "type": "string",
+                            "description": "사용자의 대화 내역이 자연과학, 사회과학, 컴퓨터공학, 코딩, 수학, 의학, 정치, 사회, 지리, 경제, 일반상식 등의 지식을 요구하는 질문일 경우 0 아니면 1을 입력한다."
+                        }
+                    },
+                    "required": ["query", "is_normal_conversation"],
+                    "type": "object"
+                }
+            }
+        },
+    ]림
+    ```
+- tools를 이용하여 분류한 결과, 2개 데이터를 제외하고 모두 잘 분류
+#### 2.학습 데이터 구축(GPT 3.5)
 - 키워드 추출
 
 ```python
@@ -243,52 +279,44 @@ user_input = """
 
 - 하나의 문서에 대해서 다양한 관점의 질의를 생성하기 위해서 키워드 추출 과정을 포함시켜 질의를 생성하여 학습 데이터를 구축하였습니다.  
 
-#### 2.Validation Set 구축
+#### 3.Validation Set 구축
 - eval.jsonl 평가 데이터의 앞에서부터 101개의 데이터에 대해서 정답 문서들을 눈으로보고 라벨링하여 validation 셋을 구축
 - 구축방법
     - 한국어 Dense Rretrieval 모델 1개 다국어 Dense Rretrieval 모델 1개 와 Sparse Rretrieval 모델 1개를 활용하여 각각의 top 10 결과를 보며 그럴듯한 문서를 정답으로 라벨링함.
-    - Rretrieval 모델로 그럴듯한 문서를 찾지 못한 경우 GPT나 인터넷 검색을 통해 적당한 Query를 재생성하여 재검색
+    - Retrieval 모델로 그럴듯한 문서를 찾지 못한 경우 GPT나 인터넷 검색을 통해 적당한 Query를 재생성하여 재검색
 
-#### 3.일상대화 분류 Prompting
 
-## 4. Modeling
+## 4. Solutions
+
+### Prompt Engineering
+
+
 
 ### Retrieval Modeling
+#### 1.PLM sentence transformers + colbert train
+#### 2.Hard Negative
+#### 3.Data Filtering
 
-### Modeling Process
-#### 1) Model-Centric : Hyperparamter Tuning 
 
-* Grid Search / Random Search 사용
-
-#### 2) Data-Centric : Topic Modeling
-- Train Dataset의 topic 컬럼 학습
-  ![Train example](https://github.com/UpstageAILab/upstage-nlp-summarization-nlp6/assets/78156719/9d5dc355-6a6f-4cdb-8819-be038aebde9f)
-- 기존 Topic 모델(X) / Language 모델(O) 
-  - 데이터셋의 topic 특성 상 LDA를 사용한 Extractive 방식이 아닌 Abtractive 방식 필요
-  - KoBART-summarization을 사용하는 베이스라인 그대로 기용
-    - 요약문 생성, Decoder 길이 제한(generate_max_length=6, decoder_max_len=6)
-    - 타겟을 summary가 아닌 topic으로 학습 및 예측
-
-      <img src=https://github.com/UpstageAILab/upstage-nlp-summarization-nlp6/assets/78156719/0f817079-6e74-45eb-b04a-4742e9778345 style="border:1px solid;">
-  - 메타 데이터 학습을 위해 topic과 dialogue를 합친 dialogue_with_topic 컬럼 추가 후 해당 컬럼으로 요약문 학습 및 예측
-    <img src=https://github.com/UpstageAILab/upstage-nlp-summarization-nlp6/assets/78156719/50fb9867-155e-4aa4-8071-72a4efb26e45 style="border:1px solid;">
-  - topic 처리를 위한 Special token 추가: #topcic#
-- Topic 추가 학습 실행 결과 성능이 향상됨✅
-
-![image](https://github.com/UpstageAILab/upstage-nlp-summarization-nlp6/assets/78156719/f131e0cd-be97-4e77-aaad-b73121bf12ea)
-![image](https://github.com/UpstageAILab/upstage-nlp-summarization-nlp6/assets/78156719/fded8d72-e903-4b89-b763-74c43a4b31b5)
-
+### Reranking
+- 이미 한국어 데이터 사전학습된 Reranker 모델을 이용해서 현재 가장 성능이 좋은 Retrieval 모델의 top10의 결과를 Reranking하였습니다.
+    - [HuggingFace : Dongjin-kr/ko-reranker](https://huggingface.co/Dongjin-kr/ko-reranker)
+    - BAAI/bge-reranker-larger 기반 한국어 데이터에 대한 fine-tuned model
+- 결과
+    - Pre-reranking : 0.7258
+    - Top 10 reranking 0.8705
+    - Top 100 reranking 0.8379
 
 ## 5. Result
 
 ### Leader Board
 
 - **Public**
-
+(수정필요)
 ![image](https://github.com/UpstageAILab/upstage-nlp-summarization-nlp6/assets/88610815/1fc641ea-7d93-4ce0-bc31-0577333a2731)
 
 - **Private**
-
+(수정필요)
 ![image](https://github.com/UpstageAILab/upstage-nlp-summarization-nlp6/assets/88610815/109bd134-3e85-40ba-badd-25243d0b2d02)
 
 ### Presentation
@@ -307,7 +335,8 @@ user_input = """
     1. [Large Language Models for Information Retrieval: A Survey(Yutao Zhu et al., 2024)](https://file.notion.so/f/f/1cc778c9-adf3-4dc6-9cdd-a46162c29bd7/c5f3d436-0523-4c6a-b983-1e65df8653e4/Large_Language_Models_for_Information_Retrieval-_A_Survey.pdf?id=3b174d97-6da7-49d8-b4a6-412775bda582&table=block&spaceId=1cc778c9-adf3-4dc6-9cdd-a46162c29bd7&expirationTimestamp=1714716000000&signature=G-yCE2GG51gXHvKdQi7jOLdiIBk4Httjgq57UT81PgQ&downloadName=Large+Language+Models+for+Information+Retrieval-+A+Survey.pdf)
     2. [ConTextual Masked Auto-Encoder for Dense Passage Retrieval(Xing Wu et al., 2022)](https://arxiv.org/abs/2208.07670)
     3. [Lost in the Middle: How Language Models Use Long Contexts(Nelson F.Liu et al., 2023)](https://arxiv.org/abs/2307.03172)
-- 블로그
+- 블로그 / Github
     1. [한국어 Reranker를 활용한 검색 증강 생성(RAG) 성능 올리기](https://aws.amazon.com/ko/blogs/tech/korean-reranker-rag/)
-    2.    
-    3.
+    2. [Korean-Reranker-Git](https://github.com/aws-samples/aws-ai-ml-workshop-kr/tree/master/genai/aws-gen-ai-kr/30_fine_tune/reranker-kr)
+    3. [Advanced RAG와 Reranker](https://velog.io/@mmodestaa/Advanced-RAG%EC%99%80-Reranker)
+    
