@@ -288,16 +288,29 @@ user_input = """
 
 ## 4. Solutions
 
-### Prompt Engineering
-
-
-
 ### Retrieval Modeling
 
 #### 1.PLM sentence transformers + colbert train
-#### 2.Hard Negative
-#### 3.Data Filtering
+- 주어진 문서들이 과학 상식에대한 도메인이기 때문에 일반적으로 잘 작동하는 공개된 PLM만으로는 부족하고 Task Specific 한 Retrieval 모델링이 필요하다고 생각하였음.
+- 기존 Sentance transformers 모델과 다른 방법론과 아키텍쳐를 사용하면서 성능 향상을 이루었고 연상량이 증가하였지만 4272개의 문서를 임베딩하는데에는 크게 무리가 없다고 판단했음.
+  ![image](https://github.com/UpstageAILab/upstage-ai-final-ir3/assets/88610815/991e8d2b-2677-472f-a801-0314b1fa7691)
 
+  
+#### 2.Hard Negative
+- 모델이 정답으로 착각하기 쉬운 Hard case를 기반으로 학습 데이터를 구성하는 방법
+
+  ![image](https://github.com/UpstageAILab/upstage-ai-final-ir3/assets/88610815/08079d82-ee84-46b4-ad08-3bdf6cb82684)
+
+    
+#### 3.Data Filtering
+- 아래 과정을 통해 데이터의 품질을 높이는 작업을 진행
+
+  ![image](https://github.com/UpstageAILab/upstage-ai-final-ir3/assets/88610815/18416c2d-5bc9-411b-94eb-06ab3f7482c7)
+### 4. Colbert Parameter Tuning
+- Index Setting
+    - kmeans_niters, nbits 조정을 통해 0.8077으로 성능 향상
+- Searching Setting
+    - ncelss 조정을 통해 0.8226으로 성능 향상
 
 ### Reranking
 - 이미 한국어 데이터 사전학습된 Reranker 모델을 이용해서 현재 가장 성능이 좋은 Retrieval 모델의 top10의 결과를 Reranking하였습니다.
