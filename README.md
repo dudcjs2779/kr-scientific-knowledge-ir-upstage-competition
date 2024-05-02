@@ -189,7 +189,7 @@ transformers              4.37.2
         - msg :  user와 assistant 간 대화 메시지 (리스트)
 ### Data Processing
 
-#### 학습 데이터 구축(GPT 3.5)
+#### 1.학습 데이터 구축(GPT 3.5)
 - 키워드 추출
 
 ```python
@@ -242,20 +242,18 @@ user_input = """
 ```
 
 - 하나의 문서에 대해서 다양한 관점의 질의를 생성하기 위해서 키워드 추출 과정을 포함시켜 질의를 생성하여 학습 데이터를 구축하였습니다.  
-#### Validation Set 구축
+
+#### 2.Validation Set 구축
 - eval.jsonl 평가 데이터의 앞에서부터 101개의 데이터에 대해서 정답 문서들을 눈으로보고 라벨링하여 validation 셋을 구축
 - 구축방법
     - 한국어 Dense Rretrieval 모델 1개 다국어 Dense Rretrieval 모델 1개 와 Sparse Rretrieval 모델 1개를 활용하여 각각의 top 10 결과를 보며 그럴듯한 문서를 정답으로 라벨링함.
     - Rretrieval 모델로 그럴듯한 문서를 찾지 못한 경우 GPT나 인터넷 검색을 통해 적당한 Query를 재생성하여 재검색
 
-#### 일상대화 분류 Prompting
+#### 3.일상대화 분류 Prompting
 
 ## 4. Modeling
 
-### Model descrition
-
-* Baseline 모델인 Kobart-Summarization 사용
-* KoT5 모델 사용을 시도 했으나, Batch Size 이슈로 인해 성공하지 못함
+### Retrieval Modeling
 
 ### Modeling Process
 #### 1) Model-Centric : Hyperparamter Tuning 
