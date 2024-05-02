@@ -120,91 +120,135 @@ transformers              4.37.2
     - ReRanking
     - ReRanker Finetuning
 
-- 24/05/02
+- 24/05/02 19:00
   : 대회 종료
 
 ## 2. Components
-
 ### Directory
 
 ```
-├── code
-│   ├── baseline.ipynb
-│   ├── baseline_optuna.ipynb
-│   └── baseline_with_topic.ipynb
-├── configs
-│   ├── config.yaml
-│   ├── config.yaml
-│   ├── config.yaml
-│   └──paper 
+├─code
+│  │  README.md
+│  │  requirements.txt
+│  │  install_elasticsearch.sh
+│  │  rag_with_elasticsearch.py
+│  │  sample_submission.csv
+│  │  requirements.txt
 └── data
-│   ├── train.csv
-│   ├── dev.csv
-│   ├── test.csv
-│   ├── sample_submission.csv
-├── results
-│   └──checkpoint
-│   │   ├── checkpoint-1750
-│   │   ├── checkpoint-2000
-│   │   ├── checkpoint-2250
-│   │   ├── checkpoint-2500
-│   └──csv
-│   │   ├── output.csv
-
+│   ├── documents.jsonl
+│   ├── eval.jsonl
 ```
 
 ## 3. Data descrption
-
 ### Dataset overview
-제공되는 데이터셋은 오직 **"** **대화문과 요약문** **"** 입니다. 회의, 일상 대화 등 다양한 주제를 가진 대화문과, 이에 대한 요약문을 포함하고 있습니다.
-  
-  <img src="https://aistages-api-public-prod.s3.amazonaws.com/app/Files/38e20522-3af8-438f-8039-c5547212b8db.png" height="150px" width="500px">
 
-- 데이터 정보
-    - train : 12457
-    - dev : 499
-    - test : 250
-    - hidden-test : 249
+
+- **대회 데이터셋 License**
+    - CC-BY-SA 4.0
+        - 원본데이터 : ARC, MMLU
+            - https://paperswithcode.com/dataset/arc
+            - https://paperswithcode.com/dataset/mmlu
+- **학습데이터**
+    - 과학 상식 정보를 담고 있는 순수 색인 대상 문서 4200여개
+    - 문서의 예시는 아래와 같습니다.
+        
+        ```
+        {"docid": "42508ee0-c543-4338-878e-d98c6babee66", "src": "ko_mmlu__nutrition__test", "content": "건강한 사람이 에너지 균형을 평형 상태로 유지하는 것은 중요합니다. 에너지 균형은 에너지 섭취와 에너지 소비의 수학적 동등성을 의미합니다. 일반적으로 건강한 사람은 1-2주의 기간 동안 에너지 균형을 달성합니다. 이 기간 동안에는 올바른 식단과 적절한 운동을 통해 에너지 섭취와 에너지 소비를 조절해야 합니다. 식단은 영양가 있는 식품을 포함하고, 적절한 칼로리를 섭취해야 합니다. 또한, 운동은 에너지 소비를 촉진시키고 근육을 강화시킵니다. 이렇게 에너지 균형을 유지하면 건강을 유지하고 비만이나 영양 실조와 같은 문제를 예방할 수 있습니다. 따라서 건강한 사람은 에너지 균형을 평형 상태로 유지하는 것이 중요하며, 이를 위해 1-2주의 기간 동안 식단과 운동을 조절해야 합니다."}
+        {"docid": "7a3e9dc2-2572-4954-82b4-1786e9e48f1f", "src": "ko_ai2_arc__ARC_Challenge__test", "content": "산꼭대기에서는 중력이 아주 약간 변합니다. 이는 무게에 영향을 미칩니다. 산꼭대기에서는 무게가 감소할 가능성이 가장 높습니다. 중력은 지구의 질량에 의해 결정되며, 산꼭대기에서는 지구의 질량과의 거리가 더 멀어지기 때문에 중력이 약간 감소합니다. 따라서, 산꼭대기에서는 무게가 더 가볍게 느껴질 수 있습니다."}
+        ```
+        
+        - 'doc_id' : 문서별 id(uuid)
+        - 'src' : 출처
+            - 데이터를 Open Ko LLM Leaderboard에 들어가는 Ko-H4 데이터 중 MMLU, ARC 데이터를 기반으로 생성했기 때문에 출처도 두가지 카테고리를 가짐
+        - 'content' : 실제 RAG에서 레퍼런스로 참고할 지식 정보
+    - 파일 포맷
+        - 각 line이 json인 jsonl 파일
       
-- 데이터 예시
-
-  <img src="https://aistages-api-public-prod.s3.amazonaws.com/app/Files/c0c1a6e2-6fa1-448e-9fc7-f9db45701022.png" height="200px" width="600px">
-    
-    - fname : 대화 고유번호 입니다. 중복되는 번호가 없습니다.
-    - dialogue : 최소 2명에서 최대 7명이 등장하여 나누는 대화 내용입니다. 각각의 발화자를 구분하기 위해#Person”N”#: 을 사용하며, 발화자의 대화가 끝나면 \n 으로 구분합니다. 이 구분자를 기준으로 하여 대화에 몇 명의 사람이 등장하는지 확인해보는 부분은 [EDA](https://colab.research.google.com/drive/1O3ZAcHR9q7dccasRcxvNhCZD-gIlasGV#scrollTo=usQutfBFqtuk)에서 다루고 있습니다.
-    - summary : 해당 대화를 바탕으로 작성된 요약문입니다.
+- **평가데이터**
+    - 200개 : 과학상식 대화
+        
+        ```
+        {"eval_id": 0, "msg": [{"role": "user", "content": "나무의 분류에 대해 조사해 보기 위한 방법은?"}]}
+        {"eval_id": 1, "msg": [{"role": "user", "content": "각 나라에서의 공교육 지출 현황에 대해 알려줘."}]}
+        {"eval_id": 3, "msg": [{"role": "user", "content": "통학 버스의 가치에 대해 말해줘."}]}
+        {"eval_id": 4, "msg": [{"role": "user", "content": "Dmitri Ivanovsky가 누구야?"}]}
+        ```
+        
+    - 20개 : 멀티턴 대화
+            
+        ```
+        {"eval_id": 2, "msg": [{"role": "user", "content": "기억 상실증 걸리면 너무 무섭겠다."}, {"role": "assistant", "content": "네 맞습니다."}, {"role": "user", "content": "어떤 원인 때문에 발생하는지 궁금해."}]}
+        ```
+            
+    - 20개 : 일반적인 대화 메시지
+        
+        ```
+        {"eval_id": 36, "msg": [{"role": "user", "content": "니가 대답을 잘해줘서 너무 신나!"}]}
+        ```
+        - eval_id : 평가 항목 ID
+        - msg :  user와 assistant 간 대화 메시지 (리스트)
 ### Data Processing
 
-#### 개인정보 마스킹
+#### 학습 데이터 구축(GPT 3.5)
+- 키워드 추출
+
+```python
+augment_instruct_test = """
+## Role
+키워드 생성기
+
+## Instructions
+- 주어진 내용을 보고 중요한 키워드만 추출하거나 생성한다.
+- 내용에는 없지만 관련성이 높은 키워드를 생성한다.
+- 중요한 키워드를 앞쪽에 배치한다.
+- JSON 포맷으로 키워드를 생성한다.
+
+## Content
+%s
+
+## Output format
+{"keywords": [$word1, $word2, $word3, ...]}
+
+""" % (docs_df[ran]["content"])
 ```
-개인정보 내역을 마스킹함
-전화번호 → #PhoneNumber#
-주소 → #Address#
-생년월일 → #DateOfBirth#
-여권번호 → #PassportNumber#
-사회보장번호 → #SSN#
-신용카드 번호 → #CardNumber#
-차량 번호 → #CarNumber#
-이메일 주소 → #Email#
+
+- 질문생성
+
+```python
+augment_instruct = """
+## Role
+질문 생성기
+
+## Instructions
+- 주어진 키워드를 참고하여 질문을 5개 생성해줘.
+- 주어진 레퍼런스 정보를 보고 이 정보가 도움이 될만한 질문을 생성해줘.
+- 앞쪽에 위치한 키워드들은 반드시 포함하여 질문을 생성해줘.
+- 최대한 다양한 질문을 생성해줘.
+- 질문은 한문장으로 간결하게 구성해줘.
+- 한국어로 질문을 생성해줘.
+- 아래 JSON 포맷으로 생성해줘.
+
+## Output format
+{"questions": [$question1, $question2, $question3, $question4, $question5]}
+""" 
+
+user_input = """
+## Keywords
+%s
+
+## Content
+%s
+"""% (documents_keywords[ran]['keywords'], documents_keywords[ran]['content'])
 ```
-* 마스킹 후 tokenizer에 추가
 
-### Data Augmentation
+- 하나의 문서에 대해서 다양한 관점의 질의를 생성하기 위해서 키워드 추출 과정을 포함시켜 질의를 생성하여 학습 데이터를 구축하였습니다.  
+#### Validation Set 구축
+- eval.jsonl 평가 데이터의 앞에서부터 101개의 데이터에 대해서 정답 문서들을 눈으로보고 라벨링하여 validation 셋을 구축
+- 구축방법
+    - 한국어 Dense Rretrieval 모델 1개 다국어 Dense Rretrieval 모델 1개 와 Sparse Rretrieval 모델 1개를 활용하여 각각의 top 10 결과를 보며 그럴듯한 문서를 정답으로 라벨링함.
+    - Rretrieval 모델로 그럴듯한 문서를 찾지 못한 경우 GPT나 인터넷 검색을 통해 적당한 Query를 재생성하여 재검색
 
-#### 방법 1
-- Solar API 사용
-- 데이터에서 summary 부분만 augmentation을 진행한 후 이를 학습 데이터에 추가
-- 모델이 다양한 summary 스타일에 더 잘 적응하도록 만들기 위해, summary만 다르게 하고 dialogue는 기존의 것을 재사용
-![열쇠를 찾았습니다](https://github.com/UpstageAILab/upstage-nlp-summarization-nlp6/assets/88610815/d8deeb84-006a-44a4-8b71-e4f68dabe5d8)
-![ZWJQ4oZKVvtWSN-Hn5VxwgdhKZDbgL8MTlahURhNGgN0u6pRWaNdRshhd0YoLTlPSbqvuIOCqM6tW-3VX7XWnpBonxgx8j1SPO0-dqQ-MAxsWeCjl7E_AnIyoyrX](https://github.com/UpstageAILab/upstage-nlp-summarization-nlp6/assets/88610815/20f1cabd-abc8-4abc-93f4-9241f2a079b2)
-
-
-#### 방법 2
-- Solar API, GPT 4 사용
-- 다양한 주제로 구성된 새로운 대화 데이터와 요약문을 생성
-![uab5WiMPKaFBL2xHvDSF40DBqGH9rzVwWQZSqTUqBbUJlemWse_W8KhEEWqaFRkN31KRpO5nca7Fx2P6s4esq-Qw8wP3SY4tqIiAqc8_ahBOJvmgVubIr44Idv8o](https://github.com/UpstageAILab/upstage-nlp-summarization-nlp6/assets/88610815/ed055c9c-220e-4ba2-b3d5-7b31c8acb9ef)
-![oDZLRimvItYX2eCXN1fJwyZooaDzRG7sPHE083jdeaJmsVDuOgN5mXliZZDMCj30Iz_qoJAclOmOxFl26_TSxk-Cd55H9co1CMQm1ZBtNz6h1sZQqKWI3_yInFmY](https://github.com/UpstageAILab/upstage-nlp-summarization-nlp6/assets/88610815/d2171a2d-85eb-4c09-8560-4fa230eca81e)
-
+#### 일상대화 분류 Prompting
 
 ## 4. Modeling
 
@@ -251,16 +295,21 @@ transformers              4.37.2
 
 ### Presentation
 
-[Presentation File Link](https://docs.google.com/presentation/d/1M8d52Sqx7eN_8Yk7zubBvoJE2KNa5dOHuB8cmO-9UBo/edit?usp=sharing)
+[Presentation File Link](https://docs.google.com/presentation/d/1vc2XwqVCUI35oBOTre9Nv2zSXMWpF8Ml8EmRQpalxF0/edit?usp=sharing)
 
 ## etc
 
 ### Meeting Log
 
-[Meeting Log](https://www.notion.so/6-1d68ac745f7f4428a014d7e36824f567?pvs=4#9927d4c1f7704322b0cfad4d131af741)
+[Meeting Log](https://www.notion.so/b13e70576943436bbe4d9d5791ff1a2b?pvs=21)
 
 ### Reference
 
-* 사용 모델 : Kobart Summarization
-
-  [HuggingFace](https://huggingface.co/gogamza/kobart-summarization)
+- 논문
+    1. [Large Language Models for Information Retrieval: A Survey(Yutao Zhu et al., 2024)](https://file.notion.so/f/f/1cc778c9-adf3-4dc6-9cdd-a46162c29bd7/c5f3d436-0523-4c6a-b983-1e65df8653e4/Large_Language_Models_for_Information_Retrieval-_A_Survey.pdf?id=3b174d97-6da7-49d8-b4a6-412775bda582&table=block&spaceId=1cc778c9-adf3-4dc6-9cdd-a46162c29bd7&expirationTimestamp=1714716000000&signature=G-yCE2GG51gXHvKdQi7jOLdiIBk4Httjgq57UT81PgQ&downloadName=Large+Language+Models+for+Information+Retrieval-+A+Survey.pdf)
+    2. [ConTextual Masked Auto-Encoder for Dense Passage Retrieval(Xing Wu et al., 2022)](https://arxiv.org/abs/2208.07670)
+    3. [Lost in the Middle: How Language Models Use Long Contexts(Nelson F.Liu et al., 2023)](https://arxiv.org/abs/2307.03172)
+- 블로그
+    1. [한국어 Reranker를 활용한 검색 증강 생성(RAG) 성능 올리기](https://aws.amazon.com/ko/blogs/tech/korean-reranker-rag/)
+    2.    
+    3.
