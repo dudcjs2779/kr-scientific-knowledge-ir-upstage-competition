@@ -118,7 +118,6 @@ transformers              4.37.2
 
 - 24/04/29 ~ 24/05/02
     - ReRanking
-    - ReRanker Finetuning
 
 - 24/05/02 19:00
   : 대회 종료
@@ -147,6 +146,7 @@ transformers              4.37.2
         - 원본데이터 : ARC, MMLU
             - https://paperswithcode.com/dataset/arc
             - https://paperswithcode.com/dataset/mmlu
+        - 저작권자 : Upstage AI LAB
 - **학습데이터**
     - 과학 상식 정보를 담고 있는 순수 색인 대상 문서 4200여개
     - 문서의 예시는 아래와 같습니다.
