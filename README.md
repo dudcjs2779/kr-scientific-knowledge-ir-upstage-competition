@@ -293,6 +293,7 @@ user_input = """
 
 
 ### Retrieval Modeling
+
 #### 1.PLM sentence transformers + colbert train
 #### 2.Hard Negative
 #### 3.Data Filtering
