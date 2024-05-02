@@ -4,7 +4,7 @@
 | ![김영천](https://github.com/dudcjs2779.png) | ![김윤겸](https://github.com/gyeom-yee.png) | ![김하연](https://github.com/210B.png) | ![남영진](https://github.com/NamisMe.png) | ![이소영](https://github.com/Leesoyeong.png) |
 | :--------------------------------------------------------------: | :--------------------------------------------------------------: | :--------------------------------------------------------------: | :--------------------------------------------------------------: | :--------------------------------------------------------------: |
 |            [김영천](https://github.com/dudcjs2779)               |            [김윤겸](https://github.com/gyeom-yee)             |            [김하연](https://github.com/devguno)             |            [남영진](https://github.com/NamisMe)             |            [이소영](https://github.com/Leesoyeong)             |
-|                         Data-Centric, 후처리                        |                            Modeling, 후처리                      |                         Modeling, Augmentation                 |                            Modeling, 전처리                      |                       Modeling,  hyperparameter tuning         |
+|                         Prompt Engineering, Retrieval modeling, Reranker, Dataset                      |                            EDA, Prompt Engineering, 회의록 작성                      |                         Prompt Engineering, Reranker, Dataset                 |                            Prompt Engineering, Reranking                     |                       Dataset, Question generation|
 
 ## 0. Overview
 ### Environment
@@ -313,12 +313,14 @@ user_input = """
 ### Leader Board
 
 - **Public**
-(수정필요)
-![image](https://github.com/UpstageAILab/upstage-nlp-summarization-nlp6/assets/88610815/1fc641ea-7d93-4ce0-bc31-0577333a2731)
+
+    MAP : 0.8705 / MRR : 0.8712
+    ![image](https://github.com/UpstageAILab/upstage-ai-final-ir3/assets/88610815/8af1a72f-adbe-4649-9e79-c5621e2601a7)
 
 - **Private**
-(수정필요)
-![image](https://github.com/UpstageAILab/upstage-nlp-summarization-nlp6/assets/88610815/109bd134-3e85-40ba-badd-25243d0b2d02)
+
+    MAP : 0.8462, MRR : 0.8500
+    ![image](https://github.com/UpstageAILab/upstage-ai-final-ir3/assets/88610815/ae500bdb-e7df-4f69-ad8c-5342fdf052ec)
 
 ### Presentation
 
