@@ -13,65 +13,114 @@
     - NVIDIA GeForce RTX 3090 | 24GB
     - CUDA Version 12.2
 - 협업환경
-  * Github, WandB
+  * Github 
 - 의사소통
   * Slack, Zoom
 
 ### Requirements
 ```
-pandas==2.1.4
-numpy==1.23.5
-wandb==0.16.1
-tqdm==4.66.1
-pytorch_lightning==2.1.2
-transformers[torch]==4.35.2
-rouge==1.0.1
-jupyter==1.0.0
-jupyterlab==4.0.9
-
+colbert-ir                0.2.14
+elasticsearch             8.8.0
+faiss-gpu                 1.7.2
+Flask                     3.0.3
+openai                    1.7.2
+pandas                    2.2.2
+tokenizers                0.15.1
+torch                     1.13.1
+torchaudio                2.1.0
+torchelastic              0.2.2
+transformers              4.37.2
 ```
 ## 1. Competiton Info
 
 ### Overview
-#### **Dialogue Summarization 경진대회**
+#### **Scientific Knowledge Question Answering | 과학 지식 질의 응답 시스템 구축**
 
-  주어진 데이터를 활용하여 일상 대화에 대한 요약을 효과적으로 생성하는 모델을 개발하는 대회
-
+질문과 이전 대화 히스토리를 보고 참고할 문서를 검색엔진에서 추출 후 이를 활용하여, 질문에 적합한 대답을 생성하는 태스크
 - **배경**
-    - 일상생활에서 대화는 **항상** 이루어지고 있습니다. 회의나 토의는 물론이고, 사소한 일상 대화 중에도 서로 다양한 주제와 입장들을 주고 받습니다. 나누는 대화를 녹음해두더라도 대화 전체를 항상 다시 들을 수는 없기 때문에 요약이 필요하고, 이를 위한 통화 비서와 같은 서비스들도 등장하고 있습니다.
-    - 그러나 하나의 대화에서도 관점, 주제별로 정리하면 수 많은 요약을 만들 수 있습니다. 대화를 하는 도중에 이를 요약하게 되면 대화에 집중할 수 없으며, 대화 이후에 기억에 의존해 요약하게 되면 오해나 누락이 추가되어 주관이 많이 개입되게 됩니다.
-    - 이를 돕기 위해, 우리는 이번 대회에서 **일상 대화를 바탕으로 요약문을 생성하는 모델**을 구축합니다!
+    - LLM의 한계
+        - Knowledge cutoff , Hallucination
+
+    - 이를 극복하기 위해 RAG(Retrieval Augmented Generation) 사용
+        - 검색엔진 : 적합한 레퍼런스 추출
+        - LLM : 답변 생성
+
+    - 문제 해결 과정
+        - 과학 상식 문서 4200여개를 미리 검색엔진에 색인
+        - 대화 메시지 / 질문이 들어오면 과학 상식에 대한 질문 의도인지 아닌 지 판단
+            - 과학상식 질문인 경우 → 적합한 문서 추출 후 답변 생성
+            - 과학상식 문서가 아닌 경우 → 검색엔진 활용 필요 없이 적절한 답 생성
 
 - **대회 목표**
 
-    - 경진대회의 목표는 정확하고 일반화된 모델을 개발하여 요약문을 생성하는 것입니다. 나누는 많은 대화에서 핵심적인 부분만 모델이 요약해주니, 업무 효율은 물론이고 관계도 개선될 수 있습니다. 또한, 참가자들은 모델의 성능을 평가하고 대화문과 요약문의 관계를 심층적으로 이해함으로써 자연어 딥러닝 모델링 분야에서의 실전 경험을 쌓을 수 있습니다.
-    - 본 대회는 결과물 csv 확장자 파일을 제출하게 됩니다.
-        - input : 249개의 대화문
-        - output : 249개의 대화 요약문
+    - RAG 시스템의 개발
+    - 검색엔진이 올바른 문서를 색인했는지, 생성된 답변이 적절한지 직접 확인
+    - 최종 출력은 문서 추출이 아니라, 질문에 대한 답변을 생성하는 것
 
 - **Evaluation**
+    - RAG에 대한 End-to-End 평가 대신, 적합한 레퍼런스를 얼마나 잘 추출했는지에 대한 평가만 진행
+    - **Mean Average Precision(MAP)**
+        - 상위 N개의 관련된 문서에 대해 전부 점수를 반영할 수 있되, 관련된 문서의 위치에 따라 점수에 차등을 줄 수있는 평가 모델
+          ![image](https://github.com/UpstageAILab/upstage-ai-final-ir3/assets/88610815/28e68e47-aa91-4d38-9c43-900c1b8345f8)
+        - 코드
+            ```python
+            def calc_map(gt, pred):    
+                sum_average_precision = 0    
+                for j in pred:        
+                    if gt[j["eval_id"]]:            
+                        hit_count = 0            
+                        sum_precision = 0            
+                        for i,docid in enumerate(j["topk"][:3]):                
+                            if docid in gt[j["eval_id"]]:                    
+                                hit_count += 1                    
+                                sum_precision += hit_count/(i+1)            
+                        average_precision = sum_precision / hit_count if hit_count > 0 else 0        
+                    else:            
+                        average_precision = 0 if j["topk"] else 1        
+                    sum_average_precision += average_precision    
+                return sum_average_precision/len(pred)
+            ```
+          - 과학 상식 질문이 아닌, 즉 검색이 필요 없는 ground truth 항목
+              -  검색 결과 없는 경우 : 1점
+              -  검색 결과 있는 경우 : 0점
 
-  - 예측된 요약 문장을 3개의 정답 요약 문장과 비교하여 metric의 평균 점수를 산출합니다.
-  - DialogSum 데이터셋은 Multi-Reference Dataset으로 multi-reference에 대한 average를 보는 것이 중요합니다. 
-  - 본 대회에서는 ROUGE-1-F1, ROUGE-2-F1, ROUGE-L-F1, 총 3가지 종류의 metric으로부터 산출된 평균 점수를 더하여 최종 점수를 계산합니다.
-  - 3개의 정답 요약 문장의 metric 평균 점수를 활용하기에 metric 점수가 100점이 만점이 아니며, 3개의 정답 요약 문장 중 하나를 랜덤하게 선택하여 산출된 점수가 약 70점 정도입니다.
   
 ### Timeline
+- Pre-Competition (04/08 ~ 04/21)
+  - 1주차 (04/08 ~ 04/12) : Information Retrieval 강의 수강
+  - 2주차 (04/15 ~ 04/19) : Baseline 코드 이해 및 기초 Data Processing
+      - Baseline Code 실행을 통한 이해
+          - Baseline Code 구조
+            ```plain text
+            ├─code (폴더)
+            │  │  README.md (실행 방법 설명)
+            │  │  requirements.txt
+            │  │  install_elasticsearch.sh (Elasticsearch 설치 및 client 사용을 위한 password 초기화)
+            │  │  rag_with_elasticsearch.py (검색엔진 색인, RAG 구현 및 평가 진행 코드)
+            │  │  sample_submission.csv (베이스라인 코드에 대한 평가 결과)
+            │  │  requirements.txt (필요한 python package)
+            ```
+      -  Validation 셋 구축
+      -  일상대화 분류 Prompting
+      -  학습데이터 구축(GPT 3.5)
 
-- 24/03/08
-
+- 24/04/22
   : 대회 시작
-- 24/03/11 ~ 24/03/15
-    - Baseline 코드를 통한 모델링 과정 이해
-    - EDA를 통한 인사이트 도출
-    - Tokenizer 수정 실험
-    - 다양한 Model 사용 실험
-- 24/03/16 ~ 24/03/19
-    - Data Augmentation
-    - Hyperparameter Tuning
-    - 후처리를 통한 Score 향상 시도
-- 24/03/20
 
+- 24/04/22 ~ 24/04/25 : 대회 전략 수립 및 실행
+    - Retrieval Modeling (By Colbert)
+    - Hard Negative
+    - Data Filtering
+    - 과학 상식 / 일반 대화 분류
+    - 솔루션 제시
+        - 프롬프트 '질문 재읽기' 전략 
+        - 모델링 사이즈를 줄이기 위한 임베딩 양자화
+
+- 24/04/29 ~ 24/05/02
+    - ReRanking
+    - ReRanker Finetuning
+
+- 24/05/02
   : 대회 종료
 
 ## 2. Components
