@@ -351,8 +351,10 @@ user_input = """
     1. [Large Language Models for Information Retrieval: A Survey(Yutao Zhu et al., 2024)](https://file.notion.so/f/f/1cc778c9-adf3-4dc6-9cdd-a46162c29bd7/c5f3d436-0523-4c6a-b983-1e65df8653e4/Large_Language_Models_for_Information_Retrieval-_A_Survey.pdf?id=3b174d97-6da7-49d8-b4a6-412775bda582&table=block&spaceId=1cc778c9-adf3-4dc6-9cdd-a46162c29bd7&expirationTimestamp=1714716000000&signature=G-yCE2GG51gXHvKdQi7jOLdiIBk4Httjgq57UT81PgQ&downloadName=Large+Language+Models+for+Information+Retrieval-+A+Survey.pdf)
     2. [ConTextual Masked Auto-Encoder for Dense Passage Retrieval(Xing Wu et al., 2022)](https://arxiv.org/abs/2208.07670)
     3. [Lost in the Middle: How Language Models Use Long Contexts(Nelson F.Liu et al., 2023)](https://arxiv.org/abs/2307.03172)
+    4. [ColBERTv2: Effective and Efficient Retrieval via Lightweight Late Interaction(Keshav Santhanam et al., 2021)](https://arxiv.org/abs/2112.01488)
 - 블로그 / Github
     1. [한국어 Reranker를 활용한 검색 증강 생성(RAG) 성능 올리기](https://aws.amazon.com/ko/blogs/tech/korean-reranker-rag/)
     2. [Korean-Reranker-Git](https://github.com/aws-samples/aws-ai-ml-workshop-kr/tree/master/genai/aws-gen-ai-kr/30_fine_tune/reranker-kr)
     3. [Advanced RAG와 Reranker](https://velog.io/@mmodestaa/Advanced-RAG%EC%99%80-Reranker)
+    4. [Zero and Few Shot Text Retrieval and Ranking Using Large Language Models](https://blog.reachsumit.com/posts/2023/03/llm-for-text-ranking/)
     
