@@ -1,0 +1,9 @@
+{"eval_id":81,"msg":[{"role":"user","content":"통학 버스의 가치에 대해 말해줘."}],"query":"통학 버스의 가치","answer":"","is_normal":true,"is_normal_label":false}
+{"eval_id":42,"msg":[{"role":"user","content":"이란 콘트라 사건이 뭐야"},{"role":"assistant","content":"이란-콘트라 사건은 로널드 레이건 집권기인 1986년에 레이건 행정부와 CIA가 적성국이었던 이란에게 무기를 몰래 수출한 대금으로 니카라과의 우익 성향 반군 콘트라를 지원하면서 동시에 반군으로부터 마약을 사들인 후 미국에 판매하다가 발각되어 큰 파장을 일으킨 사건입니다."},{"role":"user","content":"이 사건이 미국 정치에 미친 영향은?"}],"query":"이란-콘트라 사건이 미국 정치에 미친 영향은 무엇인가요?","answer":"","is_normal":true,"is_normal_label":false}
+{"eval_id":21,"msg":[{"role":"user","content":"다양한 책을 catalog화 하는 코드에서 class 정의 방법 알려줘."}],"query":"다양한 책을 catalog화 하는 코드에서 class 정의 방법","answer":"","is_normal":true,"is_normal_label":false}
+{"eval_id":210,"msg":[{"role":"user","content":"python에서 lambda 함수를 언제 사용할 수 있어?"}],"query":"python에서 lambda 함수를 사용하는 경우는 언제인가요?","answer":"","is_normal":true,"is_normal_label":false}
+{"eval_id":20,"msg":[{"role":"user","content":"소프트웨어 개발이 사람의 편향없이 이루어질 수 있나?"}],"query":"소프트웨어 개발에서 사람의 편향을 없앨 수 있는 방법은 무엇인가?","answer":"","is_normal":true,"is_normal_label":false}
+{"eval_id":108,"msg":[{"role":"user","content":"여행을 통해 얻을 수 있는 좋은 점들이 뭐가 있어?"}],"query":"여행을 통해 얻을 수 있는 좋은 점들","answer":"","is_normal":true,"is_normal_label":false}
+{"eval_id":28,"msg":[{"role":"user","content":"사회로부터의 감정적인 지원이 어떤 형태로 나타날 수 있어?"}],"query":"사회로부터의 감정적인 지원이 어떤 형태로 나타날 수 있어?","answer":"","is_normal":true,"is_normal_label":false}
+{"eval_id":299,"msg":[{"role":"user","content":"이태리에서 언론의 자유는 어떤 편이야?"}],"query":"이태리 언론의 자유","answer":"","is_normal":true,"is_normal_label":false}
+{"eval_id":50,"msg":[{"role":"user","content":"테러로 인한 이슈와 대응책에 대해 알려줘."}],"query":"테러로 인한 이슈와 대응책","answer":"","is_normal":true,"is_normal_label":false}

@@ -1,0 +1,20 @@
+{"eval_id":107,"msg":[{"role":"user","content":"기억 상실증 걸리면 너무 무섭겠다."},{"role":"assistant","content":"네 맞습니다."},{"role":"user","content":"어떤 원인 때문에 발생하는지 궁금해."}]}
+{"eval_id":42,"msg":[{"role":"user","content":"이란 콘트라 사건이 뭐야"},{"role":"assistant","content":"이란-콘트라 사건은 로널드 레이건 집권기인 1986년에 레이건 행정부와 CIA가 적성국이었던 이란에게 무기를 몰래 수출한 대금으로 니카라과의 우익 성향 반군 콘트라를 지원하면서 동시에 반군으로부터 마약을 사들인 후 미국에 판매하다가 발각되어 큰 파장을 일으킨 사건입니다."},{"role":"user","content":"이 사건이 미국 정치에 미친 영향은?"}]}
+{"eval_id":43,"msg":[{"role":"user","content":"달을 보면 항상 같은 면만 보이더라구"},{"role":"assistant","content":"네 맞습니다."},{"role":"user","content":"그 이유가 뭐야?"}]}
+{"eval_id":97,"msg":[{"role":"user","content":"세균이 나쁜줄말 알았는데 그게 아니야?"},{"role":"assistant","content":"네 맞습니다."},{"role":"user","content":"그럼 순기능에 대해 알려줄래?"}]}
+{"eval_id":243,"msg":[{"role":"user","content":"사람이나 물체가 지구 위에서 땅속으로 꺼지거나 바깥으로 튕겨나가지 않고 가만히 서 있을 수 있잖아?"},{"role":"assistant","content":"네 맞습니다."},{"role":"user","content":"그 이유를 힘의 원리로 설명해줘."}]}
+{"eval_id":66,"msg":[{"role":"user","content":"평균을 구하는 코드를 작성중이야."},{"role":"assistant","content":"네 무엇을 도와드릴까요?"},{"role":"user","content":"예외처리가 필요한 경우를 알려줘."}]}
+{"eval_id":98,"msg":[{"role":"user","content":"은하들이 점점 멀어지고 있다던데 맞아?"},{"role":"assistant","content":"네 맞아요."},{"role":"user","content":"어떤 물리적인 현상을 보고 그걸 알게 되었어?"}]}
+{"eval_id":295,"msg":[{"role":"user","content":"네바다주에 살고 있는데..."},{"role":"assistant","content":"네 그러시군요?"},{"role":"user","content":"여기 비가 많이 오지 않는 이유가 뭐야?"}]}
+{"eval_id":290,"msg":[{"role":"user","content":"산에 불이 나면 동식물이 많이 죽을텐데"},{"role":"assistant","content":"네 안타까운 일입니다."},{"role":"user","content":"불난 후에 자연의 회복 과정은 어떻게 돼?"}]}
+{"eval_id":68,"msg":[{"role":"user","content":"python 공부중인데..."},{"role":"assistant","content":"네 꼭 필요한 언어라서 공부해 두면 좋습니다."},{"role":"user","content":"숫자 계산을 위한 operator 우선순위에 대해 알려줘."}]}
+{"eval_id":86,"msg":[{"role":"user","content":"지구상에 존재하는 물 중 가장 많은 물은 바닷물이잖아?"},{"role":"assistant","content":"네 맞습니다."},{"role":"user","content":"바닷물 말고 담수가 가장 많이 있는 곳이 어디야?"}]}
+{"eval_id":89,"msg":[{"role":"user","content":"하천을 모델링하고 싶어."},{"role":"assistant","content":"네 무엇을 도와 드릴까요?"},{"role":"user","content":"모델링할 때 신경써야 할 사항들이 뭐가 있어?"}]}
+{"eval_id":306,"msg":[{"role":"user","content":"은하에는 엄청나게 많은 별들이 모여 있잖아?"},{"role":"assistant","content":"네 맞습니다."},{"role":"user","content":"그 많은 별들이 어떻게 뭉쳐 있을 수 있지?"}]}
+{"eval_id":39,"msg":[{"role":"user","content":"새로 만든 항생제가 드디어 나왔어."},{"role":"assistant","content":"네 무엇을 도와 드릴까요?"},{"role":"user","content":"그 효과를 확실히 얘기하기 위해서 해야할 일은?"}]}
+{"eval_id":33,"msg":[{"role":"user","content":"Python 공부중이야."},{"role":"assistant","content":"네 python은 배워 두시면 유용합니다."},{"role":"user","content":"list의 값중 가장 작은 값을 알려주는 함수가 뭐야?"}]}
+{"eval_id":249,"msg":[{"role":"user","content":"여러개의 약을 동시에 먹고 있어."},{"role":"assistant","content":"네, 무엇을 도와드릴까요?"},{"role":"user","content":"이렇게 동시에 먹는 경우 어떤 문제가 생길수 있나?"}]}
+{"eval_id":54,"msg":[{"role":"user","content":"우성인 빨간색 꽃과 열성인 흰꽃을 교배한다고 하자."},{"role":"assistant","content":"네 말씀하세요."},{"role":"user","content":"두 꽃을 교배한 후 다음세대 꽃의 색깔은 어떻게 되나?"}]}
+{"eval_id":3,"msg":[{"role":"user","content":"동물들이 종종 집단으로 이주하는 경우가 발생하더라구?"},{"role":"assistant","content":"네 맞습니다."},{"role":"user","content":"이렇게 집단으로 이주하게 되는 계기는 어떤 것들이 있어?"}]}
+{"eval_id":44,"msg":[{"role":"user","content":"같은 독감에 다시 걸리면 빨리 회복이 되더라구?"},{"role":"assistant","content":"네 맞습니다."},{"role":"user","content":"그 이유가 뭐야?"}]}
+{"eval_id":278,"msg":[{"role":"user","content":"노인들이 종종 후각 능력을 잃게 되는 경우가 있더라구?"},{"role":"assistant","content":"네 맞습니다."},{"role":"user","content":"이렇게 냄새를 못맡게 되면 어떤 결과로 이어지지?"}]}
