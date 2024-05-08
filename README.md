@@ -40,9 +40,11 @@ source activate rag_env
 ```
     
 **ColBERT Training**
-1. [pytorch](https://pytorch.org/get-started/previous-versions/)를 설치합니다.
-2. [ColBERT](https://github.com/stanford-futuredata/ColBERT) 라이브러리를 설치합니다.
-3. ColBERT 모델 학습을 위해 train/colbert_train.py 파일을 실행합니다.  
+1. [ColBERT](https://github.com/stanford-futuredata/ColBERT) 라이브러리를 설치합니다.
+```
+pip install colbert-ai[torch,faiss-gpu]
+```
+2. ColBERT 모델 학습을 위해 train/colbert_train.py 파일을 실행합니다.  
     Random Triple => Hard Negative Triple => Filtered Triple 순으로 총 3번 학습되며 시간이 꽤 오래걸릴 수 있습니다. 학습 데이터는 학습중 자동으로 생성되며 data/colbert_data 경로에 저장되고 인덱싱과 모델은 experiments 폴더에 저장됩니다. 
 ```
 python train/colbert_train.py
@@ -62,8 +64,8 @@ sudo apt-get install nvidia-cuda-toolkit
 python train/reranker_finetune.py
 ```
 **notice**  
-Retrieval PLM: [sentence-transformers/paraphrase-multilingual-mpnet-base-v2](https://huggingface.co/sentence-transformers/distiluse-base-multilingual-cased-v1) 
-Reranker PLM: [Dongjin-kr/ko-reranker](https://huggingface.co/Dongjin-kr/ko-reranker)
+Retrieval PLM: [sentence-transformers/paraphrase-multilingual-mpnet-base-v2](https://huggingface.co/sentence-transformers/distiluse-base-multilingual-cased-v1)  
+Reranker PLM: [Dongjin-kr/ko-reranker](https://huggingface.co/Dongjin-kr/ko-reranker)  
 Reranker의 경우 Finetune한 모델보다 사전학습 모델의 성능이 더 좋았음을 알려드립니다.
 
 
