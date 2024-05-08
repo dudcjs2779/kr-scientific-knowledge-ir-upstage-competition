@@ -31,6 +31,38 @@ torchaudio                2.1.0
 torchelastic              0.2.2
 transformers              4.37.2
 ```
+
+### Usage
+conda 환경을 먼저 구축할 것을 추천드립니다.  
+```
+conda create -n rag_env python=3.10
+source activate rag_env
+```
+    
+**ColBERT Training**
+1. [pytorch](https://pytorch.org/get-started/previous-versions/)를 설치합니다.
+2. [ColBERT](https://github.com/stanford-futuredata/ColBERT) 라이브러리를 설치합니다.
+3. ColBERT 모델 학습을 위해 train/colbert_train.py 파일을 실행합니다.  
+    Random Triple => Hard Negative Triple => Filtered Triple 순으로 총 3번 학습되며 시간이 꽤 오래걸릴 수 있습니다. 학습중 생성된 triple data는 data/colbert_data 경로에 저장되고 인덱싱과 모델은 experiments 폴더에 저장됩니다. 
+```
+python train/colbert_train.py
+```
+ColBERT 학습이 원활하게 동작하지 않을경우 아래의 명령어를 시도해보시기 바랍니다.
+```
+sudo apt install build-essential
+conda install cuda -c nvidia
+sudo apt-get install nvidia-cuda-toolkit
+```
+
+**Reranker Finetuning**
+1. [FlagEmbedding](https://github.com/FlagOpen/FlagEmbedding/tree/master/examples/reranker) 라이브러리를 설치합니다.
+2. Reranker를 Finetuning 하기 위해 train/reranker_finetune.py 파일을 실행합니다.
+```
+python train/reranker_finetune.py
+```
+
+
+
 ## 1. Competiton Info
 
 ### Overview
