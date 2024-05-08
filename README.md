@@ -43,7 +43,7 @@ source activate rag_env
 1. [pytorch](https://pytorch.org/get-started/previous-versions/)를 설치합니다.
 2. [ColBERT](https://github.com/stanford-futuredata/ColBERT) 라이브러리를 설치합니다.
 3. ColBERT 모델 학습을 위해 train/colbert_train.py 파일을 실행합니다.  
-    Random Triple => Hard Negative Triple => Filtered Triple 순으로 총 3번 학습되며 시간이 꽤 오래걸릴 수 있습니다. 학습중 생성된 triple data는 data/colbert_data 경로에 저장되고 인덱싱과 모델은 experiments 폴더에 저장됩니다. 
+    Random Triple => Hard Negative Triple => Filtered Triple 순으로 총 3번 학습되며 시간이 꽤 오래걸릴 수 있습니다. 학습 데이터는 학습중 자동으로 생성되며 data/colbert_data 경로에 저장되고 인덱싱과 모델은 experiments 폴더에 저장됩니다. 
 ```
 python train/colbert_train.py
 ```
@@ -57,10 +57,14 @@ sudo apt-get install nvidia-cuda-toolkit
 **Reranker Finetuning**
 1. [FlagEmbedding](https://github.com/FlagOpen/FlagEmbedding/tree/master/examples/reranker) 라이브러리를 설치합니다.
 2. Reranker를 Finetuning 하기 위해 train/reranker_finetune.py 파일을 실행합니다.
+   Findtuning용 학습 데이터는 학습중 자동 생성되며 data/rerank_data 경로에 저장되고 모델은 models/ko_reranker 폴더에 저장됩니다. 학습 데이터 생성시 FlagEmbedding의 BAAI/bge-m3 모델을 통한 Hard Negative Mind 과정이 포함됩니다.
 ```
 python train/reranker_finetune.py
 ```
-
+**notice**  
+Retrieval PLM: [sentence-transformers/paraphrase-multilingual-mpnet-base-v2](https://huggingface.co/sentence-transformers/distiluse-base-multilingual-cased-v1) 
+Reranker PLM: [Dongjin-kr/ko-reranker](https://huggingface.co/Dongjin-kr/ko-reranker)
+Reranker의 경우 Finetune한 모델보다 사전학습 모델의 성능이 더 좋았음을 알려드립니다.
 
 
 ## 1. Competiton Info
