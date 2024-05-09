@@ -1,6 +1,7 @@
 import sys
 sys.path.append("./")
 
+import os
 import json
 import numpy as np
 import pandas as pd
@@ -131,6 +132,9 @@ def evaluate_reranker(search_list, model_name, output_path, batch_size):
     search_df = make_submission(search_df, list_result)
     
     # 결과 저장
+    if not os.path.exists(os.path.dirname(output_path)):
+        os.makedirs(os.path.dirname(output_path))
+        
     search_df.to_json(output_path, orient="records", lines=True, force_ascii=False)
     print(f"Save rerank result at {output_path}")
     rerank_list = file_control.read_jsonl(output_path)
@@ -163,7 +167,7 @@ if __name__ == "__main__":
     # Reranker 평가
     model_name = "Dongjin-kr/ko-reranker"
     output_path = "outputs/rerank_none_finetune01.jsonl"
-    evaluate_reranker(search_list, model_name, output_path)
+    evaluate_reranker(search_list, model_name, output_path, 64)
     
     # == Finetune Reranker Valid Score(Top10) ==
     print("\n\n## Finetune Reranker Valid Score(Top10)")
@@ -174,5 +178,5 @@ if __name__ == "__main__":
     # Reranker 평가
     model_name = "models/ko_reranker"
     output_path = "outputs/rerank_finetune01.jsonl"
-    evaluate_reranker(search_list, model_name, output_path)
+    evaluate_reranker(search_list, model_name, output_path, 64)
 

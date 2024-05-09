@@ -3,9 +3,9 @@ sys.path.append("./")
 
 import subprocess
 import os
-from utils import file_control
+from utils import file_control2
 
-doc_questions_path = "data/gpt_data/result/documents_questions_final04.jsonl"
+doc_questions_path = "data/gpt_data/result/documents_questions_gpt3.jsonl"
 ranking_filename = "multilingual-colbert-filter-nbit8.ranking.tsv"
 output_path = "data/rerank_data/rerank_triple01.jsonl"
 
@@ -13,8 +13,8 @@ if __name__ == "__main__":
     
     # colbert 기반 reranker 학습용 데이터셋 구축
     print("=== Making Rerank Triple ===")
-    ranking_path = file_control.find_ranking_path(ranking_filename)
-    file_control.make_rerank_triples(doc_questions_path, ranking_path, output_path, range_top=6, range_bottom=56, neg_size=50)
+    ranking_path = file_control2.find_ranking_path(ranking_filename)
+    file_control2.make_rerank_triples(doc_questions_path, ranking_path, output_path, range_top=6, range_bottom=56, neg_size=50)
     
     
     # FlagEmbedding 라이브러리 활용하여 Hard negtaive mind

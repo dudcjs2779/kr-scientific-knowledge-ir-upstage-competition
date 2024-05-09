@@ -31,7 +31,7 @@ docs_path = "data/documents.jsonl"
 docs = file_control.read_jsonl(docs_path)
 docs_df = pd.DataFrame(docs)
 docs_list = docs_df['content'].tolist()
-docs_questions_path = "data/gpt_data/result/documents_questions_final04.jsonl"
+docs_questions_path = "data/gpt_data/result/documents_questions_gpt3.jsonl"
 
 # 평가데이터 불러오기
 eval_list = file_control.read_jsonl("data/eval_query_gpt4.jsonl")
@@ -174,7 +174,7 @@ if __name__ == "__main__":
     model_root = os.path.join("experiments", main_path, model_name)
     index_name = "multilingual-colbert-random-nbit8"
     
-    # indexing(main_path, model_root, index_name, docs_list)
+    indexing(main_path, model_root, index_name, docs_list)
     
     # Evaluation(Random triple)
     print("Trained by random triples result")
@@ -194,7 +194,7 @@ if __name__ == "__main__":
     # Hard Negative Triple 학습데이터 만들기
     file_control.make_HN_triples(ranking_path, queries_path, docs_questions_path, 
                                 queries_neg_path, triple_neg_path, 
-                                range_top=10, range_bottom=50)
+                                range_top=10, range_bottom=30)
     
     # Training(Hard Negative triple)
     checkpoint_path = file_control.find_model_path(model_root)
@@ -240,10 +240,14 @@ if __name__ == "__main__":
     
     indexing(main_path, model_root, index_name, docs_list)
     
+    
     # Evaluation(Filtered triple)
-    print("Trained by random triples result")
+    print("Trained by Filtered triple result")
     search_list = evaluate(main_path, index_name, eval_list, docs, 10)
     
+    if not os.path.exists(os.path.dirname("search_output/colbert_search_result.jsonl")):
+        os.makedirs(os.path.dirname("search_output/colbert_search_result.jsonl"))
+        
     file_control.save_to_jsonl("search_output/colbert_search_result.jsonl", search_list)
     print("Retrieval result is saved")
     
