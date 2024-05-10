@@ -48,6 +48,13 @@ sudo apt-get install nvidia-cuda-toolkit
 ```
 python train/reranker_finetune.py
 ```
+
+**Inference**  
+아래 inference/infer.py 파일을 실행해 성능 확인이 가능합니다. ColBERT Retrieval 모델의 성능과 Reranker의 Finetuning 전후 성능을 비교할 수 있습니다. ```inference/inference.ipynb``` 노트북 파일에서 결과를 시각화해 볼수도 있습니다.
+```
+python inference/infer.py
+```
+
 **notice**  
 Retrieval PLM: [sentence-transformers/paraphrase-multilingual-mpnet-base-v2](https://huggingface.co/sentence-transformers/distiluse-base-multilingual-cased-v1)  
 Reranker PLM: [Dongjin-kr/ko-reranker](https://huggingface.co/Dongjin-kr/ko-reranker)  
