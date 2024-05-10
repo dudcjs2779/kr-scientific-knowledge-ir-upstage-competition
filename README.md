@@ -17,21 +17,6 @@
 - 의사소통
   * Slack, Zoom
 
-### Requirements
-```
-colbert-ir                0.2.14
-elasticsearch             8.8.0
-faiss-gpu                 1.7.2
-Flask                     3.0.3
-openai                    1.7.2
-pandas                    2.2.2
-tokenizers                0.15.1
-torch                     1.13.1
-torchaudio                2.1.0
-torchelastic              0.2.2
-transformers              4.37.2
-```
-
 ### Usage
 conda 환경을 먼저 구축할 것을 추천드립니다.  
 ```
