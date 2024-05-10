@@ -149,16 +149,36 @@ Reranker의 경우 Finetune한 모델보다 사전학습 모델의 성능이 더
 ### Directory
 
 ```
-├─code
-│  │  README.md
-│  │  requirements.txt
-│  │  install_elasticsearch.sh
-│  │  rag_with_elasticsearch.py
-│  │  sample_submission.csv
-│  │  requirements.txt
-└── data
+├── data
+│   ├── colbert_data
 │   ├── documents.jsonl
 │   ├── eval.jsonl
+│   ├── eval_query_gpt4.jsonl
+│   ├── gpt_data
+│   ├── gt_eval.jsonl
+│   ├── gt_eval_dict.json
+│   └── rerank_data
+├── experiments
+│   └── sc_documents
+├── gpt_code
+│   ├── classify_daily_talk.ipynb
+│   └── data_augmentation.ipynb
+├── inference
+│   ├── infer.py
+│   └── inference.ipynb
+├── models
+│   └── ko_reranker
+├── outputs
+│   ├── rerank_finetune01.jsonl
+│   └── rerank_none_finetune01.jsonl
+├── search_output
+│   └── colbert_search_result.jsonl
+├── train
+│   ├── colbert_train.py
+│   └── reranker_finetune.py
+└── utils
+    ├── file_control.py
+    └── inference.py
 ```
 
 ## 3. Data descrption
