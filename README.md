@@ -392,7 +392,7 @@ user_input = """
 ## etc
 
 ### Log
-[대회회고](https://longing-artichoke-024.notion.site/Scientific-Knowledge-Question-Answering-Upstage-Competition-RAG-InformationR-c18ad917a5cd4c5e9592cf2551239eef?pvs=4)
+[대회회고](https://longing-artichoke-024.notion.site/Scientific-Knowledge-Question-Answering-Upstage-Competition-RAG-InformationR-c18ad917a5cd4c5e9592cf2551239eef?pvs=4)  
 [Meeting Log](https://www.notion.so/b13e70576943436bbe4d9d5791ff1a2b?pvs=21)
 
 ### Reference
