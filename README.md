@@ -3,7 +3,7 @@
 
 | ![김영천](https://github.com/dudcjs2779.png) | ![김윤겸](https://github.com/gyeom-yee.png) | ![김하연](https://github.com/210B.png) | ![남영진](https://github.com/NamisMe.png) | ![이소영](https://github.com/Leesoyeong.png) |
 | :--------------------------------------------------------------: | :--------------------------------------------------------------: | :--------------------------------------------------------------: | :--------------------------------------------------------------: | :--------------------------------------------------------------: |
-|            [김영천](https://github.com/dudcjs2779)               |            [김윤겸](https://github.com/gyeom-yee)             |            [김하연](https://github.com/devguno)             |            [남영진](https://github.com/NamisMe)             |            [이소영](https://github.com/Leesoyeong)             |
+|            [김영천(ME)](https://github.com/dudcjs2779)               |            [김윤겸](https://github.com/gyeom-yee)             |            [김하연](https://github.com/devguno)             |            [남영진](https://github.com/NamisMe)             |            [이소영](https://github.com/Leesoyeong)             |
 |                         Prompt Engineering, Retrieval modeling, Reranker, Dataset                      |                            EDA, Prompt Engineering, 회의록 작성                      |                         Prompt Engineering, Reranker, Dataset                 |                            Prompt Engineering, Reranking                     |                       Dataset, Question generation|
 
 ## 0. Overview
